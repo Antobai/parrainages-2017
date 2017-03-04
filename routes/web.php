@@ -16,3 +16,5 @@ Route::get("/insert","InsertController@insert");
 Route::get("/","AccueilController@accueil");
 
 Route::get("/candidat/{id}","CandidatController@showCandidat");
+
+Route::get("/candidats","CandidatController@showAllCanditats");
