@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Candidat;
-use App\Individus;
-use App\Departements;
+use App\Individu;
+use App\Departement;
 
 class InsertController extends Controller
 {
+
     public function insert(Request $request) {
 
     	
@@ -16,9 +17,6 @@ class InsertController extends Controller
     	
     	foreach ($infos as $key => $value) {
 
-    	//echo "<pre>";
-    	//var_dump($value);
-    	//echo "</pre>";
 
     		$tableNom = explode(" ", $value['Candidat-e parrainé-e']);
 
@@ -28,29 +26,36 @@ class InsertController extends Controller
         	$candidat->prenom = $tableNom[1];
         	//$candidat->couleur = "";
 	
-        	//$insertResponse = $candidat->save();
-        	//$lastIdCandidat = $data->id;
-        	$lastIdCandidat = 1;
+        	$insertResponse = $candidat->save();
+        	$lastIdCandidat = $candidat->id;
 
         	foreach ($value['Parrainages'] as $key => $parrain) {
         		
-        		$individus = new Individus;
+        		$individus = new Individu;
 
         		$individus->civilite = $parrain["Civilité"];
         		$individus->prenom = $parrain["Prénom"];
         		$individus->nom = $parrain["Nom"];
         		$individus->id_candidat = $lastIdCandidat;
-        		$individus->parrainage_publication_date = $parrain["Date de publication"];
+        		$individus->parrainage_publication_date = date('Y-m-d 00:00:00', strtotime(str_replace ('/', '-', $parrain["Date de publication"])));
 
-        		$departementClass = new Departements;
+
+        		$departementClass = new Departement;
         		$departementExists = $departementClass::select("id")->where('departement_nom', $parrain["Département"])->first();
-               
+
         		if($departementExists) {
+        			var_dump($departementExists->id);
         			$individus->id_departement = $departementExists->id;
         		}
         		else {
         			$individus->id_departement = 0;
         		}
+
+        		$individus->id_commune = 0;
+        		$individus->id_circonscription = 0;
+        		$individus->id_region = 0;
+
+        		$individus->save();
         		
 
 
