@@ -59,8 +59,10 @@
 
         <div>
             <select class="form-control input-lg">
-                <option>Choisissez un candidat</option>
-                <option value="">Jacques Cheminade (xx parrains)</option>
+                <option disabled="disabled">Choisissez un candidat</option>
+                @foreach ($candidats as $candidat)
+                    <option value="">{{$candidat->nom}} {{$candidat->prenom}} (xx parrains)</option>
+                @endforeach
             </select>
         </div>
 
