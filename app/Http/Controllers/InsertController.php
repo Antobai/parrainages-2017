@@ -9,16 +9,8 @@ use App\Departement;
 
 class InsertController extends Controller
 {
-
-    public function insert(Request $request) {
-
-    	
-    	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/?dwl=1569'), true);
-    	
-    	foreach ($infos as $key => $value) {
-
-
-    		$tableNom = explode(" ", $value['Candidat-e parrainé-e']);
+	private function insertCandidat($candidat) {
+		$tableNom = explode(" ", $candidat['Candidat-e parrainé-e']);
 
     		$candidat = new Candidat;
 
@@ -27,16 +19,18 @@ class InsertController extends Controller
         	//$candidat->couleur = "";
 	
         	$insertResponse = $candidat->save();
-        	$lastIdCandidat = $candidat->id;
+        	return $candidat->id;
+    	
+	}
 
-        	foreach ($value['Parrainages'] as $key => $parrain) {
+	private function insertIndividu($parrain,$candidat_id) {
         		
         		$individus = new Individu;
 
         		$individus->civilite = $parrain["Civilité"];
         		$individus->prenom = $parrain["Prénom"];
         		$individus->nom = $parrain["Nom"];
-        		$individus->id_candidat = $lastIdCandidat;
+        		$individus->id_candidat = $candidat_id;
         		$individus->parrainage_publication_date = date('Y-m-d 00:00:00', strtotime(str_replace ('/', '-', $parrain["Date de publication"])));
 
 
@@ -44,7 +38,6 @@ class InsertController extends Controller
         		$departementExists = $departementClass::select("id")->where('departement_nom', $parrain["Département"])->first();
 
         		if($departementExists) {
-        			var_dump($departementExists->id);
         			$individus->id_departement = $departementExists->id;
         		}
         		else {
@@ -56,15 +49,28 @@ class InsertController extends Controller
         		$individus->id_region = 0;
 
         		$individus->save();
-        		
 
+        	
+	}
 
-        	}
+    public function insert(Request $request) {
 
+    	
+    	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/?dwl=1569'), true);
+    	
+    	foreach ($infos as $key => $candidat) {
 
-        	//var_dump($insertResponse);
+    		$id_individu = $this->insertCandidat($candidat);
+    		
+    		foreach ($candidat["Parrainages"] as $key => $parrain) {
+    			var_dump($parrain);
+    			$this->insertIndividu($parrain,$id_individu);
+    		}
 
     	}
+
+
+    		
 
     	//return echo $insertResponse;
     }
