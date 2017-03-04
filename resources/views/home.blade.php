@@ -15,6 +15,12 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script
+              src="https://code.jquery.com/jquery-3.1.1.min.js"
+              integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+              crossorigin="anonymous"></script>
+
   </head>
 
   <body>
@@ -58,12 +64,29 @@
         <hr>
 
         <div>
-            <select class="form-control input-lg">
-                <option disabled="disabled">Choisissez un candidat</option>
+
+            <select id="candidatSelect" class="form-control input-lg">
+                <option class="candidat" disabled="disabled">Choisissez un candidat</option>
                 @foreach ($candidats as $candidat)
-                    <option value="">{{$candidat->nom}} {{$candidat->prenom}} (xx parrains)</option>
+                    <option class="candidat" data-id="{{$candidat->id}}" value="">{{$candidat->nom}} {{$candidat->prenom}} (xx parrains)</option>
                 @endforeach
             </select>
+
+            <script type="text/javascript">
+
+            $(function() {
+
+                $("#candidatSelect").on("click",function(e) {
+                    console.log($(e.target));
+                    if($(e.target).hasClass("candidat")) { 
+                        window.location.href="/candidat/"+$(e.target).attr("data-id");
+                    }
+                });
+
+            })
+                
+            </script>
+
         </div>
 
         <hr>
