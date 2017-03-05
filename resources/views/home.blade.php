@@ -15,9 +15,9 @@
     <hr />
     <div>
         <select id="candidatSelect" class="form-control input-lg">
-            <option class="candidat" disabled="disabled">Choisissez un candidat</option>
+            <option selected="true" disabled="disabled">Choisissez un candidat</option>
             @foreach ($candidats as $candidat)
-                <option class="candidat" data-id="{{$candidat->id}}" value="">{{$candidat->nom}} {{$candidat->prenom}} (xx parrains)</option>
+                <option class="candidat" data-id="{{$candidat->id}}" value="">{{$candidat->nom}} {{$candidat->prenom}} ({{$candidat->count}} parrains)</option>
             @endforeach
         </select>
         <script type="text/javascript">

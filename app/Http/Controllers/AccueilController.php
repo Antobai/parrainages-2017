@@ -10,13 +10,14 @@ class AccueilController extends Controller
 {
      public function accueil(Request $request) {
      	$candidat = new Candidat;
-     	$individu = new Individu:
+     	$individu = new Individu;
 
      	$candidats = $candidat::all();
 
-     	foreach ($candidats as $key => $value) {
+     	foreach ($candidats as $key => $value) {  		
      		
-     		$parrain->
+     		$candidats[$key]["count"] = $individu::where('id_candidat','=',$value->id)->count();
+
 
      	}
 
