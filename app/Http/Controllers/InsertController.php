@@ -6,9 +6,31 @@ use Illuminate\Http\Request;
 use App\Candidat;
 use App\Individu;
 use App\Departement;
+use App\Region;
+use App\Circonscription;
 
 class InsertController extends Controller
 {
+
+	private function insertRegions() {
+		$regions = json_decode(file_get_contents(''), true);
+
+		var_dump($regions);
+
+		foreach ($regions as $key => $value) {
+
+			var_dump($value);
+
+			$region = new Region;
+
+
+
+		}
+	}
+
+	private function insertCirconscription() {
+
+	}
 
 	private function insertDepartements() {
 		
@@ -69,6 +91,7 @@ class InsertController extends Controller
         		$individus->civilite = $parrain["Civilité"];
         		$individus->prenom = $parrain["Prénom"];
         		$individus->nom = $parrain["Nom"];
+        		$individus->mandat = $parrain["Mandat"];
         		$individus->id_candidat = $candidat_id;
         		$individus->parrainage_publication_date = date('Y-m-d 00:00:00', strtotime(str_replace ('/', '-', $parrain["Date de publication"])));
 
@@ -93,20 +116,22 @@ class InsertController extends Controller
 
     public function insert(Request $request) {
 
-    	$this->insertDepartements();
+    	/*$this->insertDepartements();
 
     	
     	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/?dwl=1569'), true);
     	
     	foreach ($infos as $key => $candidat) {
 
-    		$id_individu = $this->insertCandidat($candidat);
+    		$id_candidat = $this->insertCandidat($candidat);
     		
     		foreach ($candidat["Parrainages"] as $key => $parrain) {
-    			$this->insertIndividu($parrain,$id_individu);
+    			$this->insertIndividu($parrain,$id_candidat);
     		}
 
-    	}
+    	}*/
+
+    	$this->insertRegions();
 
 
     		

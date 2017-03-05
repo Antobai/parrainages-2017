@@ -18,7 +18,7 @@ class CreateIndividusTable extends Migration
             $table->string('civilite',5);
             $table->string('prenom');
             $table->string('nom');
-
+            $table->string('mandat');
             $table->integer('id_candidat');
         
             $table->date('parrainage_publication_date');
