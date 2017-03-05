@@ -20,7 +20,7 @@ class RegionController extends Controller
    		$parrains = $individu::select("*")->where('id_region', $id)->get();
 
    		$candidat = new Candidat;
-   		
+
    		foreach ($parrains as $key => $parrain) {
 
    			$candidatResult = $candidat::select("nom","prenom")->where('id', $parrain->id_candidat)->first();
@@ -28,11 +28,12 @@ class RegionController extends Controller
    			if($candidatResult) {
    				$parrain->nomCandidat = $candidatResult->nom;
    				$parrain->prenomCandidat = $candidatResult->prenom;
+   				$parrain->idCandidat = $candidatResult->id;
    			}
    		}
-   		
 
-   	
+
+
 
    		return view('region', array('id' => $id,'nom'=>$nom, 'parrains' => $parrains));
    	}
