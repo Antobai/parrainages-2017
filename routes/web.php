@@ -18,3 +18,7 @@ Route::get("/","AccueilController@accueil");
 Route::get("/candidat/{id}","CandidatController@showCandidat");
 
 Route::get("/candidats","CandidatController@showAllCanditats");
+
+Route::get("/geo/add_communes","GeoController@add_communes");
+Route::get("/geo/add_departements","GeoController@add_departements");
+Route::get("/geo/add_regions","GeoController@add_regions");
