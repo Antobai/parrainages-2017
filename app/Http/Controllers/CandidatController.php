@@ -44,7 +44,7 @@ class CandidatController extends Controller
         'prenom'=>$candidat[0]->prenom, 'parrains' => $parrains));
    	}
 
-    public function showAllCanditats() {
+    public function showAllCandidats() {
         $candidat = new Candidat;
         $candidats = $candidat::all();
         $individu = new Individu;
