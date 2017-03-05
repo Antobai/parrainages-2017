@@ -1,0 +1,15 @@
+{
+  "name": "dbal",
+  "homepage": "https://github.com/doctrine/dbal",
+  "version": "2.5.12",
+  "_release": "2.5.12",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.5.12",
+    "commit": "220cd9971c1de05ab5d4be982cf51f15c5530b36"
+  },
+  "_source": "https://github.com/doctrine/dbal.git",
+  "_target": "^2.5.12",
+  "_originalSource": "doctrine/dbal",
+  "_direct": true
+}

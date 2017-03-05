@@ -14,9 +14,11 @@ class ParrainController extends Controller
 {
 
 	public function showAllParrains() {
+		
         $parrain = new Individu;
         $parrains = $parrain::all();
 
         return view('parrains', array('parrains' => $parrains));
+
     }
 }
