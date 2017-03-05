@@ -20,6 +20,7 @@ class DepartementController extends Controller
    		$parrains = $individu::select("*")->where('id_departement', $id)->get();
 
    		$candidat = new Candidat;
+   		
    		foreach ($parrains as $key => $parrain) {
 
    			$candidatResult = $candidat::select("nom","prenom")->where('id', $parrain->id_candidat)->first();
