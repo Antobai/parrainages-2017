@@ -47,6 +47,13 @@ class CandidatController extends Controller
     public function showAllCanditats() {
         $candidat = new Candidat;
         $candidats = $candidat::all();
+        $individu = new Individu;
+        foreach ($candidats as $key => $value) {      
+            
+            $candidats[$key]["count"] = $individu::where('id_candidat','=',$value->id)->count();
+
+          }
+
         return view('candidats', array('candidats' => $candidats));
     }
 }

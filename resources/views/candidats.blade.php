@@ -3,7 +3,7 @@
     <h1>Liste des candidats</h1>
     <ul class="list-group">
         @foreach ($candidats as $candidat)
-            <li class="list-group-item"> {{ $candidat->prenom }} {{ $candidat->nom }} <span class="badge">xx parrainage(s)</span></li>
+            <li class="list-group-item"><a href="candidat/{{$candidat->id}}"> {{ $candidat->prenom }} {{ $candidat->nom }} </a> <span class="badge">{{$candidat->count}} parrainage(s)</span></li>
         @endforeach
     </ul>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
