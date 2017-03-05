@@ -38,6 +38,9 @@
     <script src="/js/app.js"></script>
     <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
     <script>
+
+        
+    
         /*affichage de la map et définition du point d'arrivée sur la carte*/
         var mymap = L.map('mapid').setView([47.221299, 5.967714], 15);
         /*type de "tiles" pour la map, on peut en changer (skin)*/  L.tileLayer('https://api.mapbox.com/styles/v1/benoitm/ciy5sprke005d2rpb6dxry2ah/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYmVub2l0bSIsImEiOiJjaXk1c24ycGYwMDJwMzNyamhmaXc2dTNnIn0.065FxCTP4WiqVfnlubCMmA', {

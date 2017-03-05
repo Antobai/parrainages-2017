@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('content')
-  <h1>Parrainages pour {{ $nom }}</h1>
+  <h1>Parrainages pour {{$prenom}} {{ $nom }} </h1>
   <ul class="list-group">
-    @if (count($parrain) == 0)
+    @if (count($parrains) == 0)
       Aucun parrainage..
     @else
-      @foreach ($parrain as $parrains)
-        <li class="list-group-item">{{ $parrains->civilite }}. {{ $parrains->nom }} {{ $parrains->prenom }}</li>
+      @foreach ($parrains as $key => $parrain)
+        <li class="list-group-item">{{$key}} - {{ $parrain->civilite }}. {{ $parrain->nom }} {{ $parrain->prenom }} - {{ $parrain->mandat }} - {{ $parrain->departement }} </li>
       @endforeach
     @endif
   </ul>
