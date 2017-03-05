@@ -10,7 +10,15 @@ use App\Departement;
 class InsertController extends Controller
 {
 	private function insertCandidat($candidat) {
-		$tableNom = explode(" ", $candidat['Candidat-e parrainé-e']);
+		if(substr_count($candidat['Candidat-e parrainé-e'], " ") <= 1) {
+			$tableNom = explode(" ", $candidat['Candidat-e parrainé-e']);
+		}
+		else {
+			$tableNom = explode(" ", $candidat['Candidat-e parrainé-e']);
+			$tableNom[0] .= $tableNom[1];
+			$tableNom[1] = $tableNom[2];
+		}
+		
 
     		$candidat = new Candidat;
 
