@@ -89,7 +89,6 @@ class InsertController extends Controller
 
         		$individus->save();
 
-        	
 	}
 
     public function insert(Request $request) {
