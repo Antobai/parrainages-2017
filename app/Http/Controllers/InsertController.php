@@ -108,15 +108,15 @@ class InsertController extends Controller
     	
 	}
 
-	private function insertIndividu($parrain,$candidat_id) {
+	private function insertIndividu($parrain,$id_candidat,$id_mandat) {
         		
         		$individus = new Individu;
 
         		$individus->civilite = $parrain["Civilité"];
         		$individus->prenom = $parrain["Prénom"];
         		$individus->nom = $parrain["Nom"];
-        		$individus->id_mandat = 0;
-        		$individus->id_candidat = $candidat_id;
+        		$individus->id_mandat = $id_mandat;
+        		$individus->id_candidat = $id_candidat;
         		$individus->parrainage_publication_date = date('Y-m-d 00:00:00', strtotime(str_replace ('/', '-', $parrain["Date de publication"])));
 
 
@@ -152,9 +152,11 @@ class InsertController extends Controller
     		
     		foreach ($candidat["Parrainages"] as $key => $parrain) {
 
-    			$id_individu = $this->insertIndividu($parrain,$id_candidat);
+    			$id_mandat = $this->insertMandat($parrain["Mandat"]);
 
-    			$this->insertMandat($parrain["Mandat"]);
+    			$id_individu = $this->insertIndividu($parrain,$id_candidat,$id_mandat);
+
+    			
 
     		}
 
