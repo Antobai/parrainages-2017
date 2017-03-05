@@ -131,7 +131,7 @@ class InsertController extends Controller
 
     	}
 
-    	$this->insertRegions();
+    	//$this->insertRegions();
 
 
     		
