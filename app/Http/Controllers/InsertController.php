@@ -116,7 +116,7 @@ class InsertController extends Controller
 
     public function insert(Request $request) {
 
-    	/*$this->insertDepartements();
+    	$this->insertDepartements();
 
     	
     	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/?dwl=1569'), true);
@@ -129,7 +129,7 @@ class InsertController extends Controller
     			$this->insertIndividu($parrain,$id_candidat);
     		}
 
-    	}*/
+    	}
 
     	$this->insertRegions();
 

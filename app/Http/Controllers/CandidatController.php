@@ -11,7 +11,7 @@ class CandidatController extends Controller
    	public function showCandidat($id) {
    		$candidatClass  = new Candidat;
    		$parrainClass   = new Individu;
-        $parrains       = $parrainClass::where('id_candidat', $id)->get();
+      $parrains       = $parrainClass::where('id_candidat', $id)->get();
    		$candidat       = $candidatClass::where('id', $id)->get();
    		return view('candidat', array('id' => $id, 'nom' => $candidat[0]->nom, 'parrain' => $parrains));
    	}
