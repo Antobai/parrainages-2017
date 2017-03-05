@@ -8,9 +8,28 @@ use App\Individu;
 use App\Departement;
 use App\Region;
 use App\Circonscription;
+use App\Mandat;
 
 class InsertController extends Controller
 {
+
+	private function insertMandat ($nom_mandat) {
+
+		$mandat = new Mandat;
+
+		$mandatExists = $mandat::select("id")->where('nom', $nom_mandat)->first();
+
+		if($mandatExists) {
+			return $mandatExists->id;
+		}
+
+		$mandat->nom = $nom_mandat;
+
+		$mandat->save();
+
+		return $mandat->id;
+
+	}
 
 	private function insertRegions() {
 		$regions = json_decode(file_get_contents(''), true);
@@ -82,7 +101,7 @@ class InsertController extends Controller
 
         	$candidat->nom = $tableNom[0];
         	$candidat->prenom = $tableNom[1];
-        	//$candidat->couleur = "";
+        	$candidat->couleur = "";
 	
         	$insertResponse = $candidat->save();
         	return $candidat->id;
@@ -96,7 +115,7 @@ class InsertController extends Controller
         		$individus->civilite = $parrain["Civilité"];
         		$individus->prenom = $parrain["Prénom"];
         		$individus->nom = $parrain["Nom"];
-        		$individus->mandat = $parrain["Mandat"];
+        		$individus->id_mandat = 0;
         		$individus->id_candidat = $candidat_id;
         		$individus->parrainage_publication_date = date('Y-m-d 00:00:00', strtotime(str_replace ('/', '-', $parrain["Date de publication"])));
 
@@ -116,6 +135,7 @@ class InsertController extends Controller
         		$individus->id_region = 0;
 
         		$individus->save();
+        		return $individus->id;
 
 	}
 
@@ -131,7 +151,11 @@ class InsertController extends Controller
     		$id_candidat = $this->insertCandidat($candidat);
     		
     		foreach ($candidat["Parrainages"] as $key => $parrain) {
-    			$this->insertIndividu($parrain,$id_candidat);
+
+    			$id_individu = $this->insertIndividu($parrain,$id_candidat);
+
+    			$this->insertMandat($parrain["Mandat"]);
+
     		}
 
     	}
