@@ -43,7 +43,12 @@ class InsertController extends Controller
 
 				$departement = new Departement;
 									
-				
+				if($data[2] == "Ile-et-Vilaine") {
+					$data[2] = "Ille-et-Vilaine";
+				}
+				if($data[2] == "Corse-du-sud") {
+					$data[2] = "Corse du sud";
+				}
 				$departement->nom = $data[2];
 				$departement->code = $data[1];
 				$departement->id_region = 0;
