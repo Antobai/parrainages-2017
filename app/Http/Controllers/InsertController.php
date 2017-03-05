@@ -9,6 +9,37 @@ use App\Departement;
 
 class InsertController extends Controller
 {
+
+	private function insertDepartements() {
+		
+		$row = 1;
+		if (($handle = fopen("http://sql.sh/ressources/sql-departement-france/departement.csv", "r")) !== FALSE) {
+			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+				$num = count($data);
+				$row++;
+				
+
+				$departement = new Departement;
+									
+				
+				$departement->nom = $data[2];
+				$departement->code = $data[1];
+				$departement->id_region = 0;
+				
+				$departementResponse = $departement->save();
+				if(!$departementResponse) {
+					var_dump($data);
+				}
+				
+
+			}
+			fclose($handle);
+		}
+
+
+	}
+
+
 	private function insertCandidat($candidat) {
 		if(substr_count($candidat['Candidat-e parrainé-e'], " ") <= 1) {
 			$tableNom = explode(" ", $candidat['Candidat-e parrainé-e']);
@@ -43,7 +74,7 @@ class InsertController extends Controller
 
 
         		$departementClass = new Departement;
-        		$departementExists = $departementClass::select("id")->where('departement_nom', $parrain["Département"])->first();
+        		$departementExists = $departementClass::select("id")->where('nom', $parrain["Département"])->first();
 
         		if($departementExists) {
         			$individus->id_departement = $departementExists->id;
@@ -63,6 +94,8 @@ class InsertController extends Controller
 
     public function insert(Request $request) {
 
+    	$this->insertDepartements();
+
     	
     	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/?dwl=1569'), true);
     	
@@ -71,7 +104,6 @@ class InsertController extends Controller
     		$id_individu = $this->insertCandidat($candidat);
     		
     		foreach ($candidat["Parrainages"] as $key => $parrain) {
-    			var_dump($parrain);
     			$this->insertIndividu($parrain,$id_individu);
     		}
 

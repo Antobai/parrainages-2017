@@ -17,6 +17,7 @@ class CreateDepartementsTable extends Migration
             $table->increments('id');
             $table->string('nom');
             $table->integer('id_region');
+            $table->integer('code');
             $table->timestamps();
         });
     }
