@@ -35,11 +35,23 @@
                         <li><a href="/candidats"><i class="fa fa-user fa-fw"></i> Candidats</a></li>
                         <li><a href="/parrains"><i class="fa fa-user-o fa-fw"></i> Parrains</a></li>
                     </ul>
+                    <form class="navbar-form navbar-left" method="get" action="{{ url('/search')}}">
+                      <div class="form-group">
+                        <input type="text" class="form-control" name="query" placeholder="Parrain, commune, département, région">
+                      </div>
+                      <button type="submit" class="btn btn-default btn-success">
+                          <i class="fa fa-search"></i>
+                      </button>
+                  </form>
                 </div>
             </div>
         </nav>
         <div class="container" style="margin-top: 80px;">
             @yield('content')
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="/js/app.js"></script>
+        <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+        @yield('after_js')
     </body>
 </html>

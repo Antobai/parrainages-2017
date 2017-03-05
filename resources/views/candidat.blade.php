@@ -1,18 +1,20 @@
 @extends('layouts.app')
 @section('content')
-  <h1>Parrainages pour {{$prenom}} {{ $nom }} </h1>
-  <ul class="list-group">
+  <h1><i class="fa fa-user"></i> Parrainages pour {{$prenom}} {{ $nom }} </h1>
+  <hr>
     @if (count($parrains) == 0)
-      Aucun parrainage..
+    <div class="alert alert-warning">
+      <i class="fa fa-warning"></i> Aucun parrainage pour le moment
+    </div>
     @else
-      @foreach ($parrains as $key => $parrain)
-        <li class="list-group-item">{{$key}} - {{ $parrain->civilite }}. {{ $parrain->nom }} {{ $parrain->prenom }} - {{ $parrain->mandat }} - {{ $parrain->departement }} </li>
+    <ul class="list-group">
+      @foreach ($parrains as $parrain)
+        <li class="list-group-item">
+          <i class="fa fa-user-o fa-fw"></i>
+          {{ $parrain->civilite }}. {{ $parrain->nom }} {{ $parrain->prenom }}
+          - {{ $parrain->mandat }} - {{ $parrain->departement }} 
+        </li>
       @endforeach
+    </ul>
     @endif
-  </ul>
-
 @endsection
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script src="/js/app.js"></script>
-  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
-
