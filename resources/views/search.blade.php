@@ -34,7 +34,7 @@
     <ul class="list-group">
       @foreach ($datas['communes'] as $commune)
         <li class="list-group-item">
-          <a href="{{ url('communes', $commune->id) }}">
+          <a href="{{ url('commune', $commune->id) }}">
             <i class="fa fa-map-marker fa-fw"></i> {{ $commune->nom }} <small>({{ $commune->code }})</small>
              <i class="fa fa-arrow-right hidden-xs"></i>
           </a>
