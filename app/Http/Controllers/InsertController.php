@@ -9,6 +9,7 @@ use App\Departement;
 use App\Region;
 use App\Circonscription;
 use App\Mandat;
+use App\Commune;
 
 class InsertController extends Controller
 {
@@ -23,7 +24,23 @@ class InsertController extends Controller
 			return $mandatExists->id;
 		}
 
+		$departementArray = array("Conseiller/ère départemental-e","Sénateur/trice","Président-e d'un conseil de communauté de communes","Député-e","Membre du Conseil de Paris","Conseiller/ère métropolitain-e de Lyon","Maire d'arrondissement","Président-e d'un conseil de métropole","Président-e d'un conseil de communauté urbaine","Président-e d'un conseil de communauté d'agglomération");
+		$communeArray = array("Maire","Maire délégué-e");
+		$regionArray = array("Membre de l'assemblée de Corse","Conseiller/ère régional-e","Membre élu-e de l'assemblée des Français de l'étranger","Représentant-e français-e au Parlement européen");
+
+
+		if(in_array($nom_mandat,$departementArray)) {
+			$secteur = "departement";
+		}
+		else if (in_array($nom_mandat,$communeArray)) {
+			$secteur = "commune";
+		}
+		else if (in_array($nom_mandat,$regionArray)) {
+			$secteur = "region";
+		}
+
 		$mandat->nom = $nom_mandat;
+		$mandat->secteur = $secteur;
 
 		$mandat->save();
 
@@ -31,25 +48,9 @@ class InsertController extends Controller
 
 	}
 
-	private function insertRegions() {
-		$regions = json_decode(file_get_contents(''), true);
 
-		var_dump($regions);
 
-		foreach ($regions as $key => $value) {
-
-			var_dump($value);
-
-			$region = new Region;
-
-		}
-	}
-
-	private function insertCirconscription() {
-
-	}
-
-	private function insertDepartements() {
+/*	private function insertDepartements() {
 		
 		$row = 1;
 		if (($handle = fopen("http://sql.sh/ressources/sql-departement-france/departement.csv", "r")) !== FALSE) {
@@ -81,7 +82,7 @@ class InsertController extends Controller
 		}
 
 
-	}
+	}*/
 
 
 	private function insertCandidat($candidat) {
@@ -131,26 +132,13 @@ class InsertController extends Controller
 
     public function insert(Request $request) {
 
-    	//1 Conseiller/ère départemental-e"
-		//2 Maire"
-		//3 Maire délégué-e"
-		//4 Sénateur/trice"
-		//5 Président-e d'un conseil de communauté de communes"
-		//6 Membre de l'assemblée de Corse"
-		//7 Député-e"
-		//8 Conseiller/ère régional-e"
-		//9 Membre du Conseil de Paris"
-		//10 Conseiller/ère métropolitain-e de Lyon"
-		//11 Maire d'arrondissement"
-		//12 Membre élu-e de l'assemblée des Français de l'étranger"
-		//13 Représentant-e français-e au Parlement européen"
-		//14 Président-e d'un conseil de métropole"
-		//15 Président-e d'un conseil de communauté urbaine"
-		//16 Président-e d'un conseil de communauté d'agglomération"
+
 
 
     	//$this->insertDepartements();
     	$departementClass = new Departement;
+    	$communeClass = new Commune;
+    	$regionClass = new Region;
 
     	
     	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/?dwl=1569'), true);
@@ -163,16 +151,56 @@ class InsertController extends Controller
 
     			$id_mandat = $this->insertMandat($parrain["Mandat"]);
 
+
     			$id_commune = 0;
     			$id_circonscription = 0;
     			$id_departement = 0;
     			$id_region = 0;
 
-    			$findDepartement =  $departementClass::select("id")->where('nom', $parrain["Département"])->first();
-
+    			$mandat = new Mandat;
+    			$findDepartement =  $mandat::select("secteur")->where('id', $id_mandat)->first();
+    			$secteur = $findDepartement->secteur;
     			if($findDepartement) {
-    				$id_departement = $results->id;
+    				if($secteur === "departement") {
+
+
+    					$findDepartement =  $departementClass::select("id")->where('nom', $parrain["Département"])->first();
+
+    					if($findDepartement) {
+    						$id_departement = $findDepartement->id;
+    					}
+
+    				}
+    				else if ($secteur === "commune") {
+
+    					$findCommune =  $communeClass::select("id")->where('nom', $parrain["Circonscription"])->first();
+
+    					if($findCommune) {
+    						$id_commune = $findCommune->id;
+    					}
+
+    				}
+    				else if ($secteur === "region") {
+
+    					if(!empty($parrain["Circonscription"])) {
+    						$search = $parrain["Circonscription"];
+    					}
+    					else {
+    						$search = $parrain["Département"];
+    					}
+    					
+    					
+    					$findRegion =  $regionClass::select("id")->where('nom', $search)->first();
+
+    					if($findRegion) {
+    						$id_region = $findRegion->id;
+    					}
+
+    				}
+    				
     			}
+
+    			
 
     			$id_individu = $this->insertIndividu($parrain,$id_candidat,$id_mandat,$id_commune,$id_circonscription,$id_departement,$id_region);
 
