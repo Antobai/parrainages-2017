@@ -11,9 +11,10 @@ class DepartementController extends Controller
 {
     public function showDepartement($id) {
    		$departement = new Departement;
-   		$departement = $departement::select("nom")->where('id', $id)->first();
+   		$departement = $departement::where('id', $id)->first();
    		if($departement) {
    			$nom = $departement->nom;
+   			$code = $departement->code;
    		}
 
    		$individu = new Individu;
@@ -28,12 +29,13 @@ class DepartementController extends Controller
    			if($candidatResult) {
    				$parrain->nomCandidat = $candidatResult->nom;
    				$parrain->prenomCandidat = $candidatResult->prenom;
+   				$parrain->idCandidat = $candidatResult->id;
    			}
    		}
-   		
 
-   	
 
-   		return view('departement', array('id' => $id,'nom'=>$nom, 'parrains' => $parrains));
+
+
+   		return view('departement', array('id' => $id,'nom'=>$nom, 'code' => $code, 'parrains' => $parrains));
    	}
 }
