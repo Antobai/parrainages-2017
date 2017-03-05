@@ -42,8 +42,6 @@ class InsertController extends Controller
 
 			$region = new Region;
 
-
-
 		}
 	}
 
@@ -151,7 +149,7 @@ class InsertController extends Controller
 		//16 Président-e d'un conseil de communauté d'agglomération"
 
 
-    	$this->insertDepartements();
+    	//$this->insertDepartements();
     	$departementClass = new Departement;
 
     	
