@@ -10,6 +10,7 @@ use App\Candidat;
 class DepartementController extends Controller
 {
     public function showDepartement($id) {
+
    		$departement = new Departement;
    		$departement = $departement::where('id', $id)->first();
    		if($departement) {
@@ -18,9 +19,19 @@ class DepartementController extends Controller
    		}
 
    		$individu = new Individu;
-   		$parrains = $individu::select("*")->where('id_departement', $id)->get();
+         $candidat = new Candidat;
+         
+   		$parrains = $candidat
+            ->join('individus', 'candidats.id', '=', 'individus.id_candidat')
+            ->select('individus.*', 'candidats.*')
+            ->get();
 
-   		$candidat = new Candidat;
+            echo "<pre>";
+            var_dump($parrains);
+             echo "</pre>";
+
+   
+   		
    		
    		foreach ($parrains as $key => $parrain) {
 
@@ -32,9 +43,6 @@ class DepartementController extends Controller
    				$parrain->idCandidat = $candidatResult->id;
    			}
    		}
-
-
-
 
    		return view('departement', array('id' => $id,'nom'=>$nom, 'code' => $code, 'parrains' => $parrains));
    	}
