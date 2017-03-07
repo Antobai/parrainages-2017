@@ -17,7 +17,7 @@ Route::get("/","AccueilController@accueil");
 
 Route::get("/candidat/{id}","CandidatController@showCandidat");
 
-Route::get("/candidats","CandidatController@showAllCandidats");
+Route::get("/candidat","CandidatController@showAllCandidats");
 
 Route::get("/parrains","ParrainController@showAllParrains");
 
