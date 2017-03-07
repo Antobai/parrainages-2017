@@ -133,12 +133,10 @@ class InsertController extends Controller
     public function insert(Request $request) {
 
 
-
-
     	//$this->insertDepartements();
-    	$departementClass = new Departement;
-    	$communeClass = new Commune;
-    	$regionClass = new Region;
+    	$departementInstance = new Departement;
+    	$communeInstance = new Commune;
+    	$regionInstance = new Region;
 
     	
     	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/?dwl=1569'), true);
@@ -164,7 +162,7 @@ class InsertController extends Controller
     				if($secteur === "departement") {
 
 
-    					$findDepartement =  $departementClass::select("id")->where('nom', $parrain["Département"])->first();
+    					$findDepartement =  $departementInstance::select("id")->where('nom', $parrain["Département"])->first();
 
     					if($findDepartement) {
     						$id_departement = $findDepartement->id;
@@ -173,11 +171,17 @@ class InsertController extends Controller
     				}
     				else if ($secteur === "commune") {
 
-    					$findCommune =  $communeClass::select("id")->where('nom', $parrain["Circonscription"])->first();
+    					$findCommune =  $communeInstance::select("id")->where('nom', $parrain["Circonscription"])->first();
 
     					if($findCommune) {
     						$id_commune = $findCommune->id;
     					}
+
+                        $findDepartement =  $departementInstance::select("id")->where('nom', $parrain["Département"])->first();
+
+                        if($findDepartement) {
+                            $id_departement = $findDepartement->id;
+                        }
 
     				}
     				else if ($secteur === "region") {
@@ -190,7 +194,7 @@ class InsertController extends Controller
     					}
     					
     					
-    					$findRegion =  $regionClass::select("id")->where('nom', $search)->first();
+    					$findRegion =  $regionInstance::select("id")->where('nom', $search)->first();
 
     					if($findRegion) {
     						$id_region = $findRegion->id;
