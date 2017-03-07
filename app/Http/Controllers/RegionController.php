@@ -15,22 +15,12 @@ class RegionController extends Controller
    		if($region) {
    			$nom = $region->nom;
    		}
-
-   		$individu = new Individu;
-   		$parrains = $individu::select("*")->where('id_region', $id)->get();
-
-   		$candidat = new Candidat;
-
-   		foreach ($parrains as $key => $parrain) {
-
-   			$candidatResult = $candidat::select("nom","prenom")->where('id', $parrain->id_candidat)->first();
-
-   			if($candidatResult) {
-   				$parrain->nomCandidat = $candidatResult->nom;
-   				$parrain->prenomCandidat = $candidatResult->prenom;
-   				$parrain->idCandidat = $candidatResult->id;
-   			}
-   		}
+         $individu = new Individu;
+   		$parrains = $individu            
+            ->select('individus.*', 'candidats.nom AS nomCandidat', 'candidats.prenom AS prenomCandidat')
+            ->join('candidats', 'candidats.id', '=', 'individus.id_candidat')
+            ->where("individus.id_region",$id)
+            ->get();
 
 
 

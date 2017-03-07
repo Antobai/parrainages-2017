@@ -11,6 +11,8 @@ class DepartementController extends Controller
 {
     public function showDepartement($id) {
 
+
+
    		$departement = new Departement;
    		$departement = $departement::where('id', $id)->first();
    		if($departement) {
@@ -19,30 +21,13 @@ class DepartementController extends Controller
    		}
 
    		$individu = new Individu;
-         $candidat = new Candidat;
-         
-   		$parrains = $candidat
-            ->join('individus', 'candidats.id', '=', 'individus.id_candidat')
-            ->select('individus.*', 'candidats.*')
+                  
+   		$parrains = $individu            
+            ->select('individus.*', 'candidats.nom AS nomCandidat', 'candidats.prenom AS prenomCandidat')
+            ->join('candidats', 'candidats.id', '=', 'individus.id_candidat')
+            ->where("individus.id_departement",$id)
             ->get();
-
-            echo "<pre>";
-            var_dump($parrains);
-             echo "</pre>";
-
-   
    		
-   		
-   		foreach ($parrains as $key => $parrain) {
-
-   			$candidatResult = $candidat::select("nom","prenom")->where('id', $parrain->id_candidat)->first();
-
-   			if($candidatResult) {
-   				$parrain->nomCandidat = $candidatResult->nom;
-   				$parrain->prenomCandidat = $candidatResult->prenom;
-   				$parrain->idCandidat = $candidatResult->id;
-   			}
-   		}
 
    		return view('departement', array('id' => $id,'nom'=>$nom, 'code' => $code, 'parrains' => $parrains));
    	}
