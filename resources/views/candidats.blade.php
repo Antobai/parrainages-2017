@@ -8,7 +8,7 @@
               <a href="candidat/{{$candidat->id}}">
                 <i class="fa fa-user"></i> {{ $candidat->prenom }} {{ $candidat->nom }}
               </a>
-              <span class="badge">{{$candidat->count}} <span class="hidden-xs">parrainage(s)</span></span></li>
+              <span class="badge">{{$candidat->compte->compte}} <span class="hidden-xs">parrainage(s)</span></span></li>
         @endforeach
     </ul>
 @endsection

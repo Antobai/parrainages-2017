@@ -3,56 +3,43 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Candidat;
+
 use App\Individu;
-use App\Mandat;
-use App\Departement;
+use App\Candidat;
+use DB;
+
 
 class CandidatController extends Controller
 {
    	public function showCandidat($id) {
-   		$candidatClass  = new Candidat;
-   		$parrainClass   = new Individu;
-      $mandatClass  = new Mandat;
-      $departementClass   = new Departement;
 
+   		$individu = new Individu;
+      $candidat = new Candidat;
 
-      $parrains = $parrainClass::where('id_candidat', $id)->get();
+      $candidat = $candidat::select("nom","prenom")->where('id', $id)->first();
 
-      foreach ($parrains as $key => $parrain) {
+      $parrains = $individu
+            ->select('individus.*','departements.nom AS nomDepartement','communes.nom AS nomCommune','regions.nom AS nomRegion','mandats.nom AS nomMandat')
+            ->join('candidats', 'candidats.id', '=', 'individus.id_candidat')
+            ->leftJoin('departements', 'departements.id', '=', 'individus.id_departement')
+            ->leftJoin('communes', 'communes.id', '=', 'individus.id_commune')
+            ->leftJoin('regions', 'regions.id', '=', 'individus.id_region')
+            ->leftJoin('mandats', 'mandats.id', '=', 'individus.id_mandat')
+            ->where("individus.id_candidat",$id)
+            ->get();
 
-        $mandat = "";
-        $mandatExists = $mandatClass::select("nom")->where('id', $parrain->id_mandat)->first();
-        if($mandatExists) {
-          $mandat = $mandatExists->nom;
-        }
-        $parrain->mandat = $mandat;
+      return view('candidat', array('candidat'=>$candidat,'parrains' => $parrains));
 
-        $departement = "";
-        $departementExists = $departementClass::select("nom")->where('id', $parrain->id_departement)->first();
-        if($departementExists) {
-          $departement = $departementExists->nom;
-        }
-        $parrain->departement = $departement;
-      }
-
-      
-
-   		$candidat = $candidatClass::where('id', $id)->get();
-
-   		return view('candidat', array('id' => $id, 'nom' => $candidat[0]->nom,
-        'prenom'=>$candidat[0]->prenom, 'parrains' => $parrains));
    	}
 
     public function showAllCandidats() {
         $candidat = new Candidat;
-        $candidats = $candidat::all();
         $individu = new Individu;
-        foreach ($candidats as $key => $value) {      
-            
-            $candidats[$key]["count"] = $individu::where('id_candidat','=',$value->id)->count();
-
-          }
+        $candidats = $candidat::all();
+        
+        foreach ($candidats as $key => $candidat) {
+          $candidat->compte = $individu::select(DB::raw('COUNT(*) as compte'))->where("id_candidat",$candidat->id)->first();
+        }
 
         return view('candidats', array('candidats' => $candidats));
     }

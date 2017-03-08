@@ -28,7 +28,7 @@ class InsertController extends Controller
 		$communeArray = array("Maire","Maire délégué-e");
 		$regionArray = array("Membre de l'assemblée de Corse","Conseiller/ère régional-e","Membre élu-e de l'assemblée des Français de l'étranger","Représentant-e français-e au Parlement européen");
 
-
+        $secteur ="";
 		if(in_array($nom_mandat,$departementArray)) {
 			$secteur = "departement";
 		}
@@ -133,13 +133,17 @@ class InsertController extends Controller
     public function insert(Request $request) {
 
 
+    
+set_time_limit(0);
+
+
     	//$this->insertDepartements();
     	$departementInstance = new Departement;
     	$communeInstance = new Commune;
     	$regionInstance = new Region;
 
     	
-    	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/?dwl=1569'), true);
+    	$infos = json_decode(file_get_contents('https://presidentielle2017.conseil-constitutionnel.fr/wp-content/uploads/2017/03/tous20170307-1.json'), true);
     	
     	foreach ($infos as $key => $candidat) {
 

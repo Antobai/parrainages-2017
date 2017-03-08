@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-  <h1><i class="fa fa-map-marker"></i> Parrains pour la commune {{ $nom }} <small>({{ $code }})</small></h1>
+  <h1><i class="fa fa-map-marker"></i> Parrains pour la commune {{ $nom }} <small>{{ $code }}</small></h1>
   <hr>
     @if (count($parrains) == 0)
     <div class="alert alert-warning">
