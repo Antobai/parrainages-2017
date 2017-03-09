@@ -12,7 +12,8 @@
         <li class="list-group-item">
           <i class="fa fa-user-o fa-fw"></i>
           {{ $parrain->civilite }}. {{ $parrain->nom }} {{ $parrain->prenom }}
-          - {{ $parrain->nomMandat }} - {{$parrain->nomCommune}} - {{ $parrain->nomDepartement }} - {{$parrain->nomRegion}}
+          - {{ $parrain->nomMandat }} - {{$parrain->nomCommune}} - 
+          {{ Html::linkRoute('departement', $parrain->nomDepartement,array('id'=>$parrain->idDepartement)) }} - {{$parrain->nomRegion}}
         </li>
       @endforeach
     </ul>

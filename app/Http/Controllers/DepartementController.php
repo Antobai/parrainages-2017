@@ -23,7 +23,7 @@ class DepartementController extends Controller
    		$individu = new Individu;
                   
    		$parrains = $individu            
-            ->select('individus.*', 'candidats.nom AS nomCandidat', 'candidats.prenom AS prenomCandidat')
+            ->select('individus.*', 'candidats.nom AS nomCandidat', 'candidats.prenom AS prenomCandidat','candidats.id AS idCandidat')
             ->join('candidats', 'candidats.id', '=', 'individus.id_candidat')
             ->where("individus.id_departement",$id)
             ->get();

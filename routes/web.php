@@ -28,7 +28,7 @@ Route::get("/geo/add_departements","GeoController@add_departements");
 Route::get("/geo/add_regions","GeoController@add_regions");
 
 
-Route::get("/departement/{id}","DepartementController@showDepartement");
+Route::get("/departement/{id}","DepartementController@showDepartement")->name('departement');
 Route::get("/commune/{id}","CommuneController@showCommune");
 Route::get("/region/{id}","RegionController@showRegion");
 

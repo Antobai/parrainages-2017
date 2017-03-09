@@ -11,7 +11,7 @@
       @foreach ($parrains as $key => $parrain)
         <li class="list-group-item">
           <i class="fa fa-user-o"></i>
-          {{ $parrain->civilite }}. {{ $parrain->nom }} {{ $parrain->prenom }} {{ $parrain->id_commune }}
+          {{ $parrain->civilite }}. {{ $parrain->nom }} {{ $parrain->prenom }} 
           <span class="pull-right">
           parraine <i class="fa fa-user"></i>
           <a href="{{ url('/candidat', $parrain->idCandidat)}}">

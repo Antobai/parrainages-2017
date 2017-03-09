@@ -19,7 +19,7 @@ class CandidatController extends Controller
       $candidat = $candidat::select("nom","prenom")->where('id', $id)->first();
 
       $parrains = $individu
-            ->select('individus.*','departements.nom AS nomDepartement','communes.nom AS nomCommune','regions.nom AS nomRegion','mandats.nom AS nomMandat')
+            ->select('individus.*','departements.nom AS nomDepartement','departements.id AS idDepartement','communes.nom AS nomCommune','regions.nom AS nomRegion','mandats.nom AS nomMandat')
             ->join('candidats', 'candidats.id', '=', 'individus.id_candidat')
             ->leftJoin('departements', 'departements.id', '=', 'individus.id_departement')
             ->leftJoin('communes', 'communes.id', '=', 'individus.id_commune')
